@@ -1,5 +1,5 @@
 /* ===== API_URL ===== */
-window.api_url = "https://script.google.com/macros/s/AKfycbz02U3mY1UTzWFJP6h0EkdTn3DZYAZRg5YnDWvFTncWV9CFibK6XDVj6gIxNx7ehNei/exec";
+window.api_url = "https://script.google.com/macros/s/AKfycbx2Q81YeC69I9_Lsyvty_CCOZ-Gza8M9rlD7eI3NXiVffVtXyvf-LZ9m1Aij-6AKbY86Q/exec";
 
 /* ===== min Tools ===== */
 window.epoch = Date.UTC(1899,11,30);
@@ -15,10 +15,24 @@ function tick() {
     minute: "2-digit",
     second: "2-digit"
   });
-  now = sbT.format(new Date()); 
+  now = sbT.format(new Date());
 }
 tick();
 setInterval(tick, 1000);
+
+window.mins = 0;
+function tick2() { mins = Number(now.slice(11, 13)) * 60 + Number(now.slice(14, 16)); }
+tick2();
+setInterval(tick2, 60000);
+
+// 依 序號 轉 yyyy/mn/dd ✔
+window.serialToYMD = function(serial) {
+  const date = new Date(epoch + (serial * 86400000));
+  const yyyy = date.getFullYear();
+  const m2 = String(date.getMonth() + 1).padStart(2, "0");
+  const d2 = String(date.getDate()).padStart(2, "0");
+  return `${yyyy}/${m2}/${d2}`;
+}
 
 // 依 yyyy/mm/dd 取日期序號
 window.ymdToSerial = function(Ntime){
@@ -27,19 +41,18 @@ window.ymdToSerial = function(Ntime){
   return ((Date.UTC(y, m-1, d) - epoch) / 86400000);
 }
 
-
-/* 日期序號 → mm/dd */
-window.serialToMMDD = function(Ntime){
-  const days = Math.floor(Number(Ntime));
-  const dt = new Date(epoch + (days*86400000));
-  const mm = String(dt.getUTCMonth()+1).padStart(2,"0");
-  const dd = String(dt.getUTCDate()).padStart(2,"0");
-  return mm + "/" + dd;
+// 依 序號 轉 mn/dd ✔
+window.serialToMD = function(sexsb) {
+  const date = new Date(epoch + (sexsb * 86400000));
+  const y4 = date.getFullYear();
+  const m2 = String(date.getMonth() + 1).padStart(2, "0");
+  const d2 = String(date.getDate()).padStart(2, "0");
+  return `${m2}/${d2}`;
 }
 
-// 依 yyyy/mm/dd 組合為 yyyymm
-window.serialToYM = function(Ntime){
-  const ymd = Ntime.slice(0, 10);
-  const [y, m, d] = ymd.split('/');
+// yyyy/mm/dd → yyyymm ✔
+window.ymdToYM = function(Ntime){
+  //const ymd = Ntime.slice(0, 10);
+  const [y, m, d] = Ntime.split('/');
   return Number(y + m.padStart(2,'0'));
 }
