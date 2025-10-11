@@ -154,7 +154,7 @@ function render(groups){
 
     const hdr = document.createElement('div');
     hdr.className = "grp";
-    hdr.textContent = "　" + serialToMMDD(g.serial) + " - " + g.sh;
+    hdr.textContent = "　" + serialToMD(g.serial) + " - " + g.sh;
     sec.appendChild(hdr);
 
     const table = document.createElement('table');

@@ -207,15 +207,14 @@ const setFootMsg = t=> footMsgEl.textContent=t;
 
 /* 日期 + 班別 */
 function currentKey() {
-  let ymdS = ymdToSerial(now);
-  let shift;
-  if (mins >= 600 && mins < 1080) shift = "A";
-  else if (mins >= 1080 || mins < 120) shift = "B";
-  else shift = "C";
+  let serial = ymdToSerial(now);
+  if (mins < 600) serial -= 1;
+  const shift = (mins >= 600 && mins < 1080) ? "A" : ((mins >= 1080 || mins < 120) ? "B" : "C");
 
-  if (mins < 600) ymdS = ymdS - 1;
-  const x = ymdS + "|" + shift;
-  const y = serialToMMDD(ymdS) + " - " + shift;
+  const ymd = serialToYMD(serial);
+  const md  = ymd.slice(5);
+  const x = serial + "|" + shift;
+  const y = md + " - " + shift;
   return { x, y };
 }
 

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
+<script src="./config.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RT外觀抽驗記錄表 | 首頁</title>
-<script src="./config.js"></script>
 <style>
   :root{ --ok:#10b981; --err:#ef4444;
     --bg:#f8fafc; --brand:#0f766e;
@@ -112,7 +112,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 async function getStatus() {
   const controller = new AbortController();
-  const t = setTimeout(() => controller.abort(), 10000);
+  const t = setTimeout(() => controller.abort(), 15000);
 
   try {
     const u = new URL(api_url);
