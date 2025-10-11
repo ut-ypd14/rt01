@@ -27,6 +27,16 @@ window.ymdToSerial = function(Ntime){
   return ((Date.UTC(y, m-1, d) - epoch) / 86400000);
 }
 
+
+/* 日期序號 → mm/dd */
+window.serialToMMDD = function(Ntime){
+  const days = Math.floor(Number(Ntime));
+  const dt = new Date(epoch + (days*86400000));
+  const mm = String(dt.getUTCMonth()+1).padStart(2,"0");
+  const dd = String(dt.getUTCDate()).padStart(2,"0");
+  return mm + "/" + dd;
+}
+
 // 依 yyyy/mm/dd 組合為 yyyymm
 window.serialToYM = function(Ntime){
   const ymd = Ntime.slice(0, 10);
