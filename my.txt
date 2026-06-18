@@ -1,0 +1,16 @@
+
+function withLock(ms, fn) {
+  const lock = LockService.getScriptLock(); // 同一專案內請求互斥
+  let locked = false;
+  try {
+    lock.waitLock(ms || 60000);
+    locked = true;
+    const res = fn();        // 這裡做寫入
+    SpreadsheetApp.flush();  // 送出變更
+    return res;
+  } catch (err) {
+    return _json({ status: "error", msg: String(err) });
+  } finally {
+    if (locked) lock.releaseLock();
+  }
+}
