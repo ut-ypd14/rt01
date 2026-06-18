@@ -14,3 +14,10 @@ function withLock(ms, fn) {
     if (locked) lock.releaseLock();
   }
 }
+
+function withLock(ms, fn){
+  const lock = LockService.getScriptLock();
+  lock.waitLock(ms);                 // 建議 60s
+  try { return fn(); }
+  finally { SpreadsheetApp.flush(); lock.releaseLock(); }
+}
